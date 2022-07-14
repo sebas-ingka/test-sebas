@@ -31,3 +31,10 @@ jobs:
           token: ${{ secrets.gh_token }}
           pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
           merge-method: merge
+
+  dummy-job:
+    runs-on: ubuntu-latest
+      - run: echo Starting `sleep 5`
+      - run: sleep 5
+      - run: echo Done sleeping
+
