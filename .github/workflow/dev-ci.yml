@@ -1,0 +1,33 @@
+name: auto-pr-wf
+
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  auto-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        #      - name: Checkout
+        #        uses: actions/checkout@v3
+        #        with:
+        #          token: ${{ inputs.gh_token }}
+
+      - name: Create pull request
+        id: open-pr
+        uses: repo-sync/pull-request@v2
+        with:
+          github_token: ${{ secrets.gh_token }}
+          destination_branch: "main" #${{ inputs.destination }}
+          #pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ inputs.destination }}"
+          pr_title: "[Automated] Merge ${{ github.ref_name }} into main"
+          pr_body: "Automated Pull Request"
+
+      - name: Enable automerge
+        if: steps.open-pr.outputs.pr_number != ''
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.gh_token }}
+          pull-request-number: ${{ steps.open-pr.outputs.pr_number }}
+          merge-method: merge
