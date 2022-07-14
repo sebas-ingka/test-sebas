@@ -34,7 +34,8 @@ jobs:
 
   dummy-job:
     runs-on: ubuntu-latest
-      - run: echo Starting `sleep 5`
-      - run: sleep 5
-      - run: echo Done sleeping
+      steps:
+        - run: echo Starting `sleep 5`
+        - run: sleep 5
+        - run: echo Done sleeping
 
